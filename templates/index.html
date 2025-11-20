@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rwanda Stock Exchange | Live Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <h1>RSE Dashboard</h1>
+                <p style="color: var(--text-secondary); margin-top: 0.5rem;">Real-time Market Data</p>
+            </div>
+            <div class="status-badge">
+                <div class="status-dot"></div>
+                Live Market
+            </div>
+        </header>
+
+        <!-- Market Stats -->
+        <div class="grid" id="market-stats" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 2rem;">
+            <!-- Populated by JS -->
+        </div>
+
+        <!-- Top Movers Grid -->
+        <div class="grid" id="top-movers">
+            <!-- Populated by JS -->
+        </div>
+
+        <!-- Main Chart -->
+        <div class="chart-container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h2 style="margin: 0; font-size: 1.25rem;">Market Overview</h2>
+                <select id="stock-select" style="background: rgba(0,0,0,0.3); color: white; border: 1px solid rgba(255,255,255,0.1); padding: 0.5rem; border-radius: 0.5rem;">
+                    <!-- Populated by JS -->
+                </select>
+            </div>
+            <canvas id="mainChart"></canvas>
+        </div>
+
+        <!-- Market Table -->
+        <div class="card" style="margin-top: 2rem;">
+            <h2 style="margin-bottom: 1rem; font-size: 1.25rem;">All Listed Companies</h2>
+            <div style="overflow-x: auto;">
+                <table id="stocks-table">
+                    <thead>
+                        <tr>
+                            <th>Symbol</th>
+                            <th>Company</th>
+                            <th>Price (RWF)</th>
+                            <th>Change</th>
+                            <th>Volume</th>
+                            <th>Availability</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Bond Market Table -->
+        <div class="card" style="margin-top: 2rem;">
+            <h2 style="margin-bottom: 1rem; font-size: 1.25rem;">Bond Market</h2>
+            <div style="overflow-x: auto;">
+                <table id="bonds-table">
+                    <thead>
+                        <tr>
+                            <th>Security</th>
+                            <th>Coupon</th>
+                            <th>Maturity</th>
+                            <th>Price</th>
+                            <th>Yield</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Investment Tools & Education Section -->
+        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem;">
+            
+            <!-- Calculator -->
+            <div class="card">
+                <h2 style="margin-bottom: 1.5rem; font-size: 1.25rem;">Investment Calculator</h2>
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div>
+                        <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem;">Investment Amount (RWF)</label>
+                        <input type="number" id="calc-amount" value="100000" style="width: 100%; padding: 0.75rem; background: rgba(0,0,0,0.2); border: var(--glass-border); color: white; border-radius: 0.5rem;">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div>
+                            <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem;">Duration (Years)</label>
+                            <input type="number" id="calc-duration" value="5" style="width: 100%; padding: 0.75rem; background: rgba(0,0,0,0.2); border: var(--glass-border); color: white; border-radius: 0.5rem;">
+                        </div>
+                        <div>
+                            <label style="display: block; color: var(--text-secondary); margin-bottom: 0.5rem;">Interest Rate (%)</label>
+                            <input type="number" id="calc-rate" value="12.5" step="0.1" style="width: 100%; padding: 0.75rem; background: rgba(0,0,0,0.2); border: var(--glass-border); color: white; border-radius: 0.5rem;">
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: var(--glass-border);">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span style="color: var(--text-secondary);">Total Interest:</span>
+                            <span id="calc-interest" style="color: var(--positive-color); font-weight: 600;">0 RWF</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span style="color: var(--text-secondary);">Monthly Income:</span>
+                            <span id="calc-monthly" style="color: var(--accent-color); font-weight: 600;">0 RWF</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: 700; margin-top: 1rem;">
+                            <span>Total Return:</span>
+                            <span id="calc-total">0 RWF</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Education -->
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <div class="card" style="background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(30, 41, 59, 0.7));">
+                    <h3 style="color: var(--accent-color); margin-top: 0;">Why Invest in Bonds?</h3>
+                    <ul style="color: var(--text-secondary); padding-left: 1.2rem; line-height: 1.6;">
+                        <li><strong>Regular Income:</strong> Bonds pay interest (coupons) at regular intervals, providing a steady cash flow.</li>
+                        <li><strong>Capital Preservation:</strong> Generally safer than stocks; you get your principal back at maturity.</li>
+                        <li><strong>Diversification:</strong> Adding bonds to your portfolio reduces overall risk.</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3 style="color: var(--positive-color); margin-top: 0;">Understanding ROI</h3>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">
+                        Return on Investment (ROI) measures the gain or loss generated on an investment relative to the amount of money invested. 
+                        <br><br>
+                        <em>ROI = (Net Profit / Cost of Investment) x 100</em>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="/static/app.js"></script>
+</body>
+</html>

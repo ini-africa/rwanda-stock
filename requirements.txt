@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+sqlalchemy
+requests
+beautifulsoup4
+jinja2
+selenium
+webdriver-manager
+fake-useragent
